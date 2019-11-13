@@ -37,7 +37,7 @@ function InputSample() {
 
     return(
         <div>
-            <input name="name" onChange={onChange} placeholder="이름" ref={nameInput} value={name}/>
+            <input name="name" onChange={onChange} placeholder="이름" ref={nameInput} value={name}/>  {/* ref로 포커스받을 DOM에 설정 */}
             <input name="nickName" onChange={onChange} placeholder="닉네임" value={nickName}/>
 
             <Button variant="contained" onClick={onReset}>초기화</Button>
