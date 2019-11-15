@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, { useRef, useState, useMemo, useCallback} from 'react';
 import Hello2 from './Hello';
 import Wrapper from './Wrapper'
 import Counter from './Counter'
@@ -6,6 +6,11 @@ import './App.css';
 import InputSample from './InputSample';
 import UserList from './UserList'
 import CreateUser from './CreateUser';
+
+function countActiveUsers(users) {
+  console.log("활성화 수 체크...")
+  return users.filter(user => user.active).length
+}
 
 function App() {
 
@@ -43,15 +48,25 @@ function App() {
 
   const { username, email } = inputs
 
-  const onChange = e => {
-    const { name, value } = e.target
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target
+  
+      setInputs({
+        ...inputs,
+        [name]: value
+      })
+  
+    }, [inputs]
+  )  
+  // const onChange = e => {
+  //   const { name, value } = e.target
 
-    setInputs({
-      ...inputs,
-      [name]: value
-    })
-
-  }
+  //   setInputs({
+  //     ...inputs,
+  //     [name]: value
+  //   })
+  // }
 
   const [users, setUsers] = useState(
     [
@@ -100,18 +115,25 @@ function App() {
     nextId.current += 1
   }
 
-  const onRemove = id => {
-    // id가일치 하지않는 원소들만 가지고새로운 배열을 생성
-    setUsers(users.filter(user => user.id !== id))
-  }
+  const onRemove =useCallback(
+    id => {
+      // id가일치 하지않는 원소들만 가지고새로운 배열을 생성
+      setUsers(users.filter(user => user.id !== id))
+    }, [users, username, email]
+  )
 
-  const onToggle = id => {
+  const onToggle = useCallback(
+    id => {
       setUsers(
         users.map(user =>
             user.id == id ? { ...user, active: !user.active} : user
           )
       )
-  }
+  }, [users]
+  )
+
+  // const count = countActiveUsers(users)
+  const count = useMemo(() => countActiveUsers(users), [users])
 
   return (
     <div>
@@ -154,6 +176,8 @@ function App() {
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
 
       <br />
+      <div>활성화수: {count}</div>
+
       <br />
       <br />
       <br />
