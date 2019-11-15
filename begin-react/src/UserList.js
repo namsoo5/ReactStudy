@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button } from '@material-ui/core'
 
-function User({ user, onRemove, onToggle }) {
+const User = React.memo(function User({ user, onRemove, onToggle }) {
     useEffect(() => {
         console.log("User가 화면에 나타남")
         console.log(user)
@@ -28,7 +28,7 @@ function User({ user, onRemove, onToggle }) {
             <Button variant="contained" onClick={() => onRemove(user.id)}>삭제</Button>
         </div>
     )
-}
+})
 
 
 function UserList({ users, onRemove, onToggle }) {
@@ -50,4 +50,4 @@ function UserList({ users, onRemove, onToggle }) {
 
     )
 }
-export default UserList;
+export default React.memo(UserList)
