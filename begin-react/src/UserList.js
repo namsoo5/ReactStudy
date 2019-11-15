@@ -1,18 +1,26 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
 
-function User({ user, onRemove }) {
+function User({ user, onRemove, onToggle }) {
     return (
         <div>
-            <b>{user.name}</b><span>{user.email}</span>
-            <Button variant="contained" onClick={()=>onRemove(user.id)}>삭제</Button>
+            <b style={{
+                cursor: 'pointer',
+                color: user.active ? 'green' : 'black'
+            }}
+                onClick={() => onToggle(user.id)}
+            >
+                {user.username}
+            </b>
+            <span>{user.email}</span>
+            <Button variant="contained" onClick={() => onRemove(user.id)}>삭제</Button>
         </div>
     )
 }
 
 
-function UserList({users, onRemove}) {
-    
+function UserList({ users, onRemove, onToggle }) {
+
 
     return (
         /*
@@ -23,8 +31,8 @@ function UserList({users, onRemove}) {
             </div>
         */
         <div>
-            {users.map(user => 
-                <User user={user} key={user.id} onRemove={onRemove}/>
+            {users.map(user =>
+                <User user={user} key={user.id} onRemove={onRemove} onToggle={onToggle} />
             )}
         </div>
 

@@ -58,17 +58,20 @@ function App() {
       {
         id: 1,
         username: 'change1',
-        email: 'wow1@naver.com'
+        email: 'wow1@naver.com',
+        active: true
       },
       {
         id: 2,
         username: 'change2',
-        email: 'wow2@naver.com'
+        email: 'wow2@naver.com',
+        active: true
       },
       {
         id: 3,
         username: 'change3',
-        email: 'wow3@naver.com'
+        email: 'wow3@naver.com',
+        active: true
       }
     ]
   )
@@ -100,6 +103,14 @@ function App() {
   const onRemove = id => {
     // id가일치 하지않는 원소들만 가지고새로운 배열을 생성
     setUsers(users.filter(user => user.id !== id))
+  }
+
+  const onToggle = id => {
+      setUsers(
+        users.map(user =>
+            user.id == id ? { ...user, active: !user.active} : user
+          )
+      )
   }
 
   return (
@@ -140,7 +151,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate} />
 
-      <UserList users={users} onRemove={onRemove} />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
 
       <br />
       <br />
